@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    table {border-collapse: collapse;}
+    td {border: 1px solid #000; padding: 3px 4px 1px; text-align: center;}
+  </style>
+</head>
+<body>
+
+<table>
+<tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+<tr><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td></tr>
+<tr><td>4</td><td>0</td><td>4</td><td>0</td><td>4</td><td>0</td></tr>
+<tr><td>5</td><td>6</td><td>6</td><td>6</td><td>6</td><td>6</td></tr>
+<tr><td>A</td><td>A</td><td>A</td><td>A</td><td>A</td><td>A</td></tr>
+<tr><td>Z</td><td>Z</td><td>Z</td><td>Z</td><td>Z</td><td>Z</td></tr>
+</table>
+
+<hr>
+
+<button id="action1" title="скрыть таблицу и  показать с задержкой 1 сек">Cобытие 1</button>
+<br>
+<button id="action2" title="изменить фон второй строки на красный">Событие 2</button>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+var timeoutId = undefined;
+
+$().ready(function(){
+  $('tr').on(
+    'dblclick',
+    function() {
+      clearTimeout(timeoutId);
+      timeoutId = undefined;
+
+      $(this).after($(this).clone());
+    }
+  );
+
+  $('td').on(
+    'click',
+    function() {
+      if (!timeoutId)
+      {
+        var self = this;
+
+        timeoutId = setTimeout(
+          function() {
+            clearTimeout(timeoutId);
+            timeoutId = undefined;
+
+            $(self).html($(self).html()+'+');
+          },
+          500);
+      }
+    }
+  );
+
+  $('#action1').on(
+    'click',
+    function() {
+      $('table')
+        .hide()
+        .show(1000);
+    }
+  );
+
+  $('#action2').on(
+    'click',
+    function() {
+      $('tr:nth-child(2)').css({'background' : '#ff0000'});
+    }
+  );
+});
+</script>
+
+</body>
+</html>
